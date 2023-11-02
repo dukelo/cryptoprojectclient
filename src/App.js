@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import authService from './services/auth.service';
+import Layout from './components/Layout';
+import HomeComponent from './pages/HomeComponent';
+import PriceComponent from './pages/PriceComponent';
+import LoginComponent from './pages/LoginComponent';
+import RegisterComponent from './pages/RegisterComponent';
+import ProfileComponent from './pages/ProfileComponent';
+import InvestComponent from './pages/InvestComponents';
+import HistoryComponent from './pages/HistoryComponent';
+
+
 
 function App() {
+
+  let [currentUser, setCurrentUser] = useState(authService.getCurrentUser())
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Layout currentUser={currentUser} setCurrentUser={setCurrentUser} />}>
+          <Route index element={<HomeComponent />} />
+          <Route path='price' element={<PriceComponent />} />
+          <Route path='login' element={<LoginComponent currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
+          <Route path='register' element={<RegisterComponent />} />
+          <Route path='profile' element={<ProfileComponent />} />
+          <Route path='investment' element={<InvestComponent />} />
+          <Route path='history' element={<HistoryComponent />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
